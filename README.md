@@ -11,7 +11,7 @@ Also included is the ability to jQueryUi's AutoComplete mechanism to enhance you
 
     ```
     <link href="tagIt-1.0.0.0.css" rel="stylesheet">
-    <script type="text/javascript" src="tagIt-1.0.0.0.js"></script>
+    <script type="text/javascript" src="tagIt-x.x.x.x.js"></script>
     ```
 
 ##Default Usage
