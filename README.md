@@ -5,7 +5,7 @@ Looking to combine several tagging input controls on one page? Not a problem, Ta
 
 Also included is the ability to jQueryUi's AutoComplete mechanism to enhance your user's experience.
 
-##Simple Setup
+##Setup
 1. Download yourself a fresh copy of this magnificent plugin.
 2. Include references to the javascript and css files to your site.
 
@@ -13,9 +13,8 @@ Also included is the ability to jQueryUi's AutoComplete mechanism to enhance you
     <link href="tagIt-1.0.0.0.css" rel="stylesheet">
     <script type="text/javascript" src="tagIt-1.0.0.0.js"></script>
     ```
-##Advanced Setup
 
-##Usage
+##Default Usage
 1. Add a text input element to your site.
 
     ```
@@ -36,7 +35,32 @@ Also included is the ability to jQueryUi's AutoComplete mechanism to enhance you
     $('#tagIt').tags();
     ```
 
+##Advanced Usage
+The steps all the same as in the simple usage example, except this example shows all the available settings.
+
+    ```
+    $('#tagIt').tagIt({
+        allowDuplicates: false,
+        autocomplete: { source: 'http://renicorp.com/Home/AutoCompleteOptions' },
+        backspaceDeletesTags: false,
+        defaultText: 'Enter Something Cool',
+        delimiter: ',',
+        duplicatesCaseSensitive: true,
+        initialTags: [{ Pkid: 'TestPkid', Text: 'Initial Tag' }],
+        maxLength: 10
+    });
+    ```
+
+##Tag Object
+The tag object consists of a Pkid property and a Text property. The pkid does *not* have to be a Guid, it can be an int, string, or null as well. The text property should be a string.
+
 ##Additional Functions
+1. Import Tags
+
+    ```
+    var tags = [{ Pkid: 'Test', Text: 'Testing Import'}];
+    $('#tagIt').importTags(tags);
+    ```
 
 ##Defaults / Configurable Properties
 
