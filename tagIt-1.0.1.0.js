@@ -2,7 +2,6 @@
     TagIt 1.0.1.0
     Documentation: http://renicorp.com/tagit
     Author: Nathan Renico (nathan@renicorp.com)
-    Updated: March 2015
 */
 
 (function(jQuery) {
