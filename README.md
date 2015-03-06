@@ -5,15 +5,17 @@ Looking to combine several tagging input controls on one page? Not a problem, Ta
 
 Also included is the ability to jQueryUi's AutoComplete mechanism to enhance your user's experience.
 
-##Setup
+##Simple Setup
 1. Download yourself a fresh copy of this magnificent plugin.
 2. Include references to the javascript and css files to your site.
+
     ```
     <link href="tagIt-1.0.0.0.css" rel="stylesheet">
     <script type="text/javascript" src="tagIt-1.0.0.0.js"></script>
     ```
+##Advanced Setup
 
-##Simple Usage
+##Usage
 1. Add a text input element to your site.
 
     ```
@@ -34,15 +36,15 @@ Also included is the ability to jQueryUi's AutoComplete mechanism to enhance you
     $('#tagIt').tags();
     ```
 
-##Advanced Setup
+##Additional Functions
 
 ##Defaults / Configurable Properties
 
-1. allowDuplicates: true (true or false) - When this value is switched to false, user's will not be able to enter duplicate tags. A duplicate is indicated by a matching key and a matching value. The value will be compared based on the duplicatesCaseSesitive property.
-2. autocomplete: null (autocomplete settings object) - See jQuery Ui Autocomplete documentation for a full list of options. The most important one is source. This must be set for this feature to work. Example usage { source: 'http://www.mydomain.com/directory/to/autocomplete }
-3. duplicatesCaseSensitive: false (true or false) - Allows the comparison for a duplicate value to take into account case. Ex: This allows control over whether 'Test' and 'test' should be a duplicate.
-4. backspaceDeletesTags: true (true or false) - Indicates if pressing backspace will delete exisiting tags if the input box is blank.
-5. defaultText: 'Add a Tag' (string) - This can be any string you like. It's the default text in the box before the user clicks in it.
-6. delimiter: null (character) - This can be any single character. When this character is pressed it will take on the same affect as pressing Enter or Tab.
-7. initialTags: null (Array of Tag objects) - This can be used to default in some tags from the client-side.
-8. maxLength: null (int) - Max length of the text the user can enter.
+1. **allowDuplicates**: true (true or false) - When this value is switched to false, user's will not be able to enter duplicate tags. A duplicate is indicated by a matching key and a matching value. The value will be compared based on the duplicatesCaseSesitive property.
+2. **autocomplete**: null (autocomplete settings object) - See jQuery Ui Autocomplete documentation for a full list of options. The most important one is source. This must be set for this feature to work. You can use strings, objects, or a url.
+3. **duplicatesCaseSensitive**: false (true or false) - Allows the comparison for a duplicate value to take into account case. Ex: This allows control over whether 'Test' and 'test' should be a duplicate.
+4. **backspaceDeletesTags**: true (true or false) - Indicates if pressing backspace will delete exisiting tags if the input box is blank.
+5. **defaultText**: 'Add a Tag' (string) - This can be any string you like. It's the default text in the box before the user clicks in it.
+6. **delimiter**: null (character) - This can be any single character. When this character is pressed it will take on the same affect as pressing Enter or Tab.
+7. **initialTags**: null (Array of Tag objects) - This can be used to default in some tags from the client-side.
+8. **maxLength**: null (int) - Max length of the text the user can enter.
