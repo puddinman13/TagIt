@@ -55,11 +55,35 @@ The steps all the same as in the simple usage example, except this example shows
 The tag object consists of a Pkid property and a Text property. The pkid does *not* have to be a Guid, it can be an int, string, or null as well. The text property should be a string.
 
 ##Additional Functions
-1. Import Tags
+1. Add Tag
+
+    ```
+    var tag = [{ Pkid: 'Test', Text: 'Testing Import'}];
+    $('#tagIt').addTag(tag);
+    ```
+    
+2. Import Tags
 
     ```
     var tags = [{ Pkid: 'Test', Text: 'Testing Import'}];
     $('#tagIt').importTags(tags);
+    ```
+    
+3. Valid Tag
+
+    Returns a true of false value indicating whether the tag can be successfully added or not
+
+    ```
+    var tag = [{ Pkid: 'Test', Text: 'Testing Import'}];
+    $('#tagIt').isValidTag(tag);
+    ```
+    
+4. Tags
+
+    Returns an array or tags that currently exist in control.
+
+    ```
+    $('#tagIt').tags();
     ```
 
 ##Defaults / Configurable Properties
