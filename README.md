@@ -1,9 +1,9 @@
 # TagIt
 Yet another tagging plugin for jQuery. This tagging system allows the manipulation of tags that consist of a key/value pair, so data can easily be stored in a relational database. 
 
-Looking to combine several tagging input controls on one page? Not a problem, TagIt allows you to place several tagging control on the same page or even in the same form. Data retrieval is done with a single function call making it easy to send tags to the server.
+Looking to combine several tagging input controls on one page? Not a problem, TagIt allows you to place several tagging controls on the same page or even in the same form. Data retrieval is done with a single function call making it easy to send tags to the server.
 
-Also included is the ability to jQueryUi's AutoComplete mechanism to enhance your user's experience.
+Also included is the ability to use jQueryUi's AutoComplete mechanism to enhance your user's experience.
 
 ##Setup
 1. Download yourself a fresh copy of this magnificent plugin from the [releases section](https://github.com/puddinman13/TagIt/releases).
