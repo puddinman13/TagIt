@@ -1,5 +1,5 @@
 /*
-    TagIt 1.0.2.0
+    TagIt 1.0.3.0
     Documentation: http://renicorp.com/tagit
     Author: Nathan Renico (nathan@renicorp.com)
     Updated: March 2015
@@ -40,6 +40,10 @@
             id: controlPkid,
             'class': 'tagit'
         }).insertAfter(parentControl);
+
+        var width = settings[controlPkid].width;
+        if (width !== undefined && width != null)
+            outterDiv.attr('style', 'width: ' + width + ';');
 
         var innerDiv = jQuery('<div></div>').appendTo(outterDiv);
 
@@ -85,8 +89,9 @@
 
         inputControl.blur(function () {
             if (inputControl.val() !== '') {
-                $('[data-tagitid="' + controlPkid + '"]').addTag(createTag(inputControl.val()));
-                inputControl.val('');
+                if ($('[data-tagitid="' + controlPkid + '"]').addTag(createTag(inputControl.val()))) {
+                    inputControl.val('');
+                }
                 inputControl.focus();
             } else {
                 inputControl.val(settings[controlPkid].defaultText);
@@ -104,8 +109,9 @@
                 && isValidInput(this.value)) {
                 event.preventDefault();
 
-                jQuery('[data-tagitid="' + controlPkid + '"]').addTag(createTag(this.value));
-                inputControl.val('');
+                if (jQuery('[data-tagitid="' + controlPkid + '"]').addTag(createTag(this.value))) {
+                    inputControl.val('');
+                }
                 return false;
             }
 
@@ -176,7 +182,8 @@
         var inputControl = jQuery('#' + control.data('tagitid') + '_Input');
 
         if (!control.isValidTag(tag)) {
-            control.addClass('error');
+            inputControl.addClass('error');
+            return false;
         } else {
             tag.ElementId = generateUuid();
             tags[control.data('tagitid')].push(tag);
@@ -191,6 +198,7 @@
                     return jQuery('#' + tag.ElementId).parent().deleteTag(tag);
                 })
             ).insertBefore(inputControl.parent());
+            return true;
         }
     };
 
@@ -206,6 +214,7 @@
     }
 
     jQuery.fn.deleteTag = function (tag) {
+        if (tag === undefined) return;
         var controlPkid = jQuery(this).attr('id').replace('_Input', '');
 
         var index;
@@ -213,6 +222,7 @@
             tags[controlPkid].splice(index, 1);
         }
 
+        if (!tag.ElementId) return;
         jQuery('#' + tag.ElementId).remove();
     }
 
@@ -235,6 +245,7 @@
         delimiter: null,
         duplicatesCaseSensitive: false,
         initialTags: null,
-        maxLength: null
-    };
+        maxLength: null,
+        width: null
+};
 }(jQuery));
