@@ -5,6 +5,8 @@ Looking to combine several tagging input controls on one page? Not a problem, Ta
 
 Also included is the ability to use jQueryUi's AutoComplete mechanism to enhance your user's experience.
 
+[Preview a Demo](http://www.renicorp.com/tagit)
+
 ##Setup
 1. Download yourself a fresh copy of this magnificent plugin from the [releases section](https://github.com/puddinman13/TagIt/releases).
 2. Include references to the javascript and css files to your site.
