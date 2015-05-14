@@ -1,8 +1,8 @@
 /*
-    TagIt 1.0.3.0
+    TagIt 1.0.4.0
     Documentation: http://renicorp.com/tagit
     Author: Nathan Renico (nathan@renicorp.com)
-    Updated: March 2015
+    Updated: May 2015
 */
 
 (function(jQuery) {
@@ -89,7 +89,7 @@
 
         inputControl.blur(function () {
             if (inputControl.val() !== '') {
-                if ($('[data-tagitid="' + controlPkid + '"]').addTag(createTag(inputControl.val()))) {
+                if ($('[data-tagitid="' + controlPkid + '"]').addTag(createTag(inputControl.val())).length !== 0) {
                     inputControl.val('');
                 }
                 inputControl.focus();
@@ -109,7 +109,7 @@
                 && isValidInput(this.value)) {
                 event.preventDefault();
 
-                if (jQuery('[data-tagitid="' + controlPkid + '"]').addTag(createTag(this.value))) {
+                if (jQuery('[data-tagitid="' + controlPkid + '"]').addTag(createTag(this.value)).length !== 0) {
                     inputControl.val('');
                 }
                 return false;
@@ -152,25 +152,29 @@
     }
 
     jQuery.fn.tagIt = function (options) {
-        var currentControl = jQuery(this);
-        var controlPkid = generateUuid();
-        currentControl.attr('data-tagitid', controlPkid).hide();
+        var displayElements = new Array();
+        return this.each(function(index, item) {
+            var currentControl = jQuery(item);
+            var controlPkid = generateUuid();
 
-        tags[controlPkid] = new Array();
-        settings[controlPkid] = jQuery.extend({}, jQuery.fn.tagIt.defaults, options);
-        delimiter[controlPkid] = settings[controlPkid].delimiter;
+            currentControl.attr('data-tagitid', controlPkid).hide();
 
-        var controls = createTagItControls(this, controlPkid);
-        var inputControl = controls.find('input');
+            tags[controlPkid] = new Array();
+            settings[controlPkid] = jQuery.extend({}, jQuery.fn.tagIt.defaults, options);
+            delimiter[controlPkid] = settings[controlPkid].delimiter;
 
-        addEventHandlersToControls(inputControl, controlPkid);
-        setupAutocomplete(inputControl, controlPkid);
-        currentControl.importTags(settings[controlPkid].initialTags);
+            var controlDisplayElements = createTagItControls(this, controlPkid);
+            displayElements.push(controlDisplayElements);
+            var inputControl = controlDisplayElements.find('input');
 
-        return controls;
+            addEventHandlersToControls(inputControl, controlPkid);
+            setupAutocomplete(inputControl, controlPkid);
+            currentControl.importTags(settings[controlPkid].initialTags);
+        });
     };
 
     jQuery.fn.isValidTag = function (tag) {
+        //This function only works with a single selected control
         var controlPkid = jQuery(this).data('tagitid');
         var isDuplicate = settings[controlPkid].allowDuplicates ? false : tagExists(controlPkid, tag);
 
@@ -178,60 +182,101 @@
     }
 
     jQuery.fn.addTag = function (tag) {
-        var control = jQuery(this);
-        var inputControl = jQuery('#' + control.data('tagitid') + '_Input');
+        var addedTags = new Array();
+        this.each(function(index, item) {
+            var control = jQuery(item);
 
-        if (!control.isValidTag(tag)) {
-            inputControl.addClass('error');
-            return false;
-        } else {
-            tag.ElementId = generateUuid();
-            tags[control.data('tagitid')].push(tag);
+            var inputControl = jQuery('#' + control.data('tagitid') + '_Input');
 
-            jQuery('<span>', { id: tag.ElementId }).addClass('tag').append(
-                jQuery('<span>').text(tag.Text).append('&nbsp;&nbsp;'),
-                jQuery('<a>', {
-                    href: '#',
-                    title: 'Delete',
-                    text: 'X'
-                }).click(function() {
-                    return jQuery('#' + tag.ElementId).parent().deleteTag(tag);
-                })
-            ).insertBefore(inputControl.parent());
-            return true;
-        }
+            if (!control.isValidTag(tag)) {
+                inputControl.addClass('error');
+            } else {
+                var internalTag = {
+                    Pkid: tag.Pkid,
+                    Text: tag.Text,
+                    ElementId: generateUuid()
+                }
+                tags[control.data('tagitid')].push(internalTag);
+                addedTags.push(internalTag);
+
+                jQuery('<span>', { id: internalTag.ElementId }).addClass('tag').append(
+                    jQuery('<span>').text(internalTag.Text).append('&nbsp;&nbsp;'),
+                    jQuery('<a>', {
+                        href: '#',
+                        title: 'Delete',
+                        text: 'X'
+                    }).click(function() {
+                        return jQuery('#' + internalTag.ElementId).parent().deleteTag(internalTag);
+                    })
+                ).insertBefore(inputControl.parent());
+            }
+        });
+
+        return addedTags.length === 1 ? addedTags[0] : addedTags;
     };
 
     jQuery.fn.importTags = function (importTags) {
-        if (!importTags) return;
+        var addedTags = new Array();
+        if (!importTags) return addedTags;
 
-        var control = jQuery(this);
-        importTags.forEach(function (tag) {
-            control.addTag(tag);
+        this.each(function(index, item) {
+            var control = jQuery(item);
+            importTags.forEach(function (tag) {
+                addedTags.push(control.addTag(tag));
+            });
+
+            control.blur();
         });
 
-        control.blur();
+        return addedTags;
     }
 
     jQuery.fn.deleteTag = function (tag) {
+        //This function only works with a single selected control
         if (tag === undefined) return;
-        var controlPkid = jQuery(this).attr('id').replace('_Input', '');
+        var control = jQuery(this);
+        var controlPkid;
+        
+        if (control.data('tagitid') !== undefined) {
+            controlPkid = control.data('tagitid');
+        } else {
+            controlPkid = control.attr('id');
+        }
 
-        var index;
-        while ((index = tags[controlPkid].indexOf(tag)) > -1) {
-            tags[controlPkid].splice(index, 1);
+        var tagIndex;
+        while ((tagIndex = tags[controlPkid].indexOf(tag)) > -1) {
+            tags[controlPkid].splice(tagIndex, 1);
         }
 
         if (!tag.ElementId) return;
         jQuery('#' + tag.ElementId).remove();
     }
 
-    jQuery.fn.tags = function () {
-        var controlPkid = jQuery(this).data('tagitid');
-        var convertedTags = new Array();
+    jQuery.fn.getTagsByPkid = function(pkid) {
+        //This function only works with a single selected control
+        var foundTags = new Array();
+        if (pkid === undefined) return foundTags;
 
-        tags[controlPkid].forEach(function (tag) {
-            convertedTags.push({ Pkid: tag.Pkid, Text: tag.Text });
+        var controlPkid = jQuery(this).data('tagitid');
+        var controlsTags = tags[controlPkid];
+
+        $(controlsTags).each(function(index, item) {
+            if (item.Pkid === pkid) {
+                foundTags.push(item);
+            }
+        });
+
+        return foundTags;
+    }
+
+    jQuery.fn.tags = function () {
+        var convertedTags = new Array();
+        this.each(function (index, item) {
+            var controlPkid = jQuery(item).data('tagitid');
+            
+            tags[controlPkid].forEach(function (tag) {
+                convertedTags.push({ Pkid: tag.Pkid, Text: tag.Text });
+            });
         });
 
         return convertedTags;
