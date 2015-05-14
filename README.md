@@ -37,6 +37,24 @@ Also included is the ability to use jQueryUi's AutoComplete mechanism to enhance
     $('#tagIt').tags();
     ```
 
+##Class Level Selector
+
+You can now have multiple elements be controlled through a class level selector.
+
+1. Add multiple text input elements to your site
+
+    ```
+    <input type="text" id="tagIt1" class="tagIt" />
+    <input type="text" id="tagIt2" class="tagIt" />
+    <input type="text" id="tagIt3" class="tagIt" />
+    ```
+2. Apply TagIt to the input elements
+
+    ```
+    $('.tagIt').tagIt();
+    ```
+Note: Some functions require that they be called with a single element selector, or have different functionality depending on the type of selector used. Please see the function list below for details on how to properly make subsequent calls to the TagIt plugin.
+
 ##Advanced Initialization
 This example demonstrates how to setup an element while override the default options. All of the available settings are in the Defaults / Configurable Properties documentation below.
 
