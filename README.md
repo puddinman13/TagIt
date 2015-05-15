@@ -51,7 +51,7 @@ You can now have multiple elements be controlled through a class level selector.
 2. Apply TagIt to the input elements
 
     ```
-    $('.tagIt').tagIt();
+    $('.myClass').tagIt();
     ```
 Note: Some functions require that they be called with a single element selector, or have different functionality depending on the type of selector used. Please see the function list below for details on how to properly make subsequent calls to the TagIt plugin.
 
@@ -78,12 +78,12 @@ The EntityId field is a storage location indicating the id of the element the ta
 ##Additional Functions
 1. Add Tag
 
-    The addTag function accepts a single object representing the tag to add. A tag object is returned and will have a value for the EntityId. Note: If you call this method with a class level selector ($('.tagIt')), it will return an array of tag objects.
+    The addTag function accepts a single object representing the tag to add. A tag object is returned and will have a value for the EntityId. Note: If you call this method with a class level selector ($('.myClass')), it will return an array of tag objects.
 
     ```
     var addedTag = $('#tagIt').addTag({ Pkid: 'Test', Text: 'Testing Add'});
     -OR-
-    var addedTags = $('.tagIt').addTag({Pkid: 'Test'. Text: 'Testing Add'});
+    var addedTags = $('.myClass').addTag({Pkid: 'Test'. Text: 'Testing Add'});
     ```
     
 2. Import Tags
@@ -123,7 +123,7 @@ The EntityId field is a storage location indicating the id of the element the ta
     
 6. Tags
 
-    Returns an array of tags that currently exist in the selected control. If a class level selector ($('.tagIt')) is used, this will return all tags from all controls that contain that class.
+    Returns an array of tags that currently exist in the selected control. If a class level selector ($('.myClass')) is used, this will return all tags from all controls that contain that class.
 
     ```
     var enteredTags = $('#tagIt').tags();
