@@ -129,6 +129,14 @@ The EntityId field is a storage location indicating the id of the element the ta
     var enteredTags = $('#tagIt').tags();
     ```
 
+7. Clear
+
+    Clears all the tags from a control. This works with both an element and a class level selector.
+    
+    ```
+    $('#tagIt').tagIt('clear');
+    ```
+
 ##Defaults / Configurable Properties
 
 These are all of the available option overrides. The default value is in italics with the required type in parenthesis.
