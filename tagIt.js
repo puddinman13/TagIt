@@ -1,11 +1,11 @@
 /*
-    TagIt 1.0.4.0
+    TagIt 1.0.5.0
     Documentation: http://renicorp.com/tagit
     Author: Nathan Renico (nathan@renicorp.com)
-    Updated: May 2015
+    Updated: June 2015
 */
 
-(function(jQuery) {
+(function (jQuery) {
     var tags = new Array();
     var settings = new Array();
     var delimiter = new Array();
@@ -135,7 +135,7 @@
         if (controlSettings.autocomplete === null) return;
 
         var options = jQuery.extend({
-            autoFocus : false,
+            autoFocus: false,
             focus: function () { return false; }
         }, controlSettings.autocomplete);
 
@@ -151,9 +151,22 @@
         }
     }
 
+    function clearTags(control) {
+        control.each(function (index, item) {
+            var pkid = jQuery(item).data('tagitid');
+            tags[pkid] = new Array();
+            control.parent().find('#' + control.data('tagitid') + ' .tag').remove();
+        });
+    }
+
     jQuery.fn.tagIt = function (options) {
+        if (options === 'clear') {
+            clearTags(jQuery(this));
+            return this;
+        }
+
         var displayElements = new Array();
-        return this.each(function(index, item) {
+        return this.each(function (index, item) {
             var currentControl = jQuery(item);
             var controlPkid = generateUuid();
 
@@ -183,7 +196,7 @@
 
     jQuery.fn.addTag = function (tag) {
         var addedTags = new Array();
-        this.each(function(index, item) {
+        this.each(function (index, item) {
             var control = jQuery(item);
 
             var inputControl = jQuery('#' + control.data('tagitid') + '_Input');
@@ -205,7 +218,7 @@
                         href: '#',
                         title: 'Delete',
                         text: 'X'
-                    }).click(function() {
+                    }).click(function () {
                         return jQuery('#' + internalTag.ElementId).parent().deleteTag(internalTag);
                     })
                 ).insertBefore(inputControl.parent());
@@ -219,7 +232,7 @@
         var addedTags = new Array();
         if (!importTags) return addedTags;
 
-        this.each(function(index, item) {
+        this.each(function (index, item) {
             var control = jQuery(item);
             importTags.forEach(function (tag) {
                 addedTags.push(control.addTag(tag));
@@ -236,11 +249,11 @@
         if (tag === undefined) return;
         var control = jQuery(this);
         var controlPkid;
-        
+
         if (control.data('tagitid') !== undefined) {
             controlPkid = control.data('tagitid');
         } else {
-            controlPkid = control.attr('id');
+            controlPkid = control.attr('id').replace('_Input', '');
         }
 
         var tagIndex;
@@ -252,7 +265,7 @@
         jQuery('#' + tag.ElementId).remove();
     }
 
-    jQuery.fn.getTagsByPkid = function(pkid) {
+    jQuery.fn.getTagsByPkid = function (pkid) {
         //This function only works with a single selected control
         var foundTags = new Array();
         if (pkid === undefined) return foundTags;
@@ -260,7 +273,7 @@
         var controlPkid = jQuery(this).data('tagitid');
         var controlsTags = tags[controlPkid];
 
-        $(controlsTags).each(function(index, item) {
+        $(controlsTags).each(function (index, item) {
             if (item.Pkid === pkid) {
                 foundTags.push(item);
             }
@@ -273,7 +286,7 @@
         var convertedTags = new Array();
         this.each(function (index, item) {
             var controlPkid = jQuery(item).data('tagitid');
-            
+
             tags[controlPkid].forEach(function (tag) {
                 convertedTags.push({ Pkid: tag.Pkid, Text: tag.Text });
             });
@@ -292,5 +305,5 @@
         initialTags: null,
         maxLength: null,
         width: null
-};
+    };
 }(jQuery));
