@@ -148,6 +148,10 @@
                 inputControl.val('');
                 return false;
             });
+            if (controlSettings.renderItem !== undefined) {
+                jQuery(inputControl).autocomplete("instance")._renderItem =
+                    controlSettings.renderItem;
+            }
         }
     }
 
